@@ -1,6 +1,11 @@
 FROM ubuntu:trusty
 MAINTAINER Fernando Mayo <fernando@tutum.co>
 
+# install the PHP extensions we need
+RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev sendmail sendmail-bin mailutils && rm -rf /var/lib/apt/lists/* \
+&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+&& docker-php-ext-install gd mysqli opcache
+
 # Install base packages
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq install \
